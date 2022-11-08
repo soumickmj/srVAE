@@ -65,11 +65,11 @@ def load_and_evaluate(dataset, model, writer=None):
     model = nn.DataParallel(model).to(args.device)
     model.eval()
     criterion = ELBOLoss()
-    
+
     # Evaluation of the model
     # --- calculate elbo ---
     test_losses = evaluate(model, criterion, test_loader)
-    print('ELBO: {} bpd'.format(test_losses['bpd']))
+    print(f"ELBO: {test_losses['bpd']} bpd")
 
     # --- image generation ---
     generate(model, n_samples=15*15)
@@ -97,8 +97,13 @@ def main():
     # Initialize TensorBoad writer (if enabled)
     writer = None
     if args.use_tb:
-        writer = SummaryWriter(log_dir='./logs/'+args.dataset+'_'+args.model+'_'+args.tags +
-                               datetime.now().strftime("/%d-%m-%Y/%H-%M-%S"))
+        writer = SummaryWriter(
+            log_dir=(
+                f'./logs/{args.dataset}_{args.model}_{args.tags}'
+                + datetime.now().strftime("/%d-%m-%Y/%H-%M-%S")
+            )
+        )
+
 
         writer.add_text('args', namespace2markdown(args))
 

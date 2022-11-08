@@ -46,9 +46,6 @@ class p_x(nn.Module):
         )
 
     def forward(self, input):
-        logits = self.core_nn(input)
-        return logits
+        return self.core_nn(input)
 
 
-if __name__ == "__main__":
-    pass

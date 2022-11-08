@@ -16,7 +16,7 @@ ROOT = './data_root/'
 # ----- Dataset Splitter -----
 
 def get_samplers(num_train, valid_size):
-    use_percentage=True if isinstance(valid_size, float) else False
+    use_percentage = isinstance(valid_size, float)
 
     # obtain training indices that will be used for validation
     indices = list(range(num_train))
@@ -97,5 +97,3 @@ def dataloader(dataset=args.dataset, data_root=ROOT, batch_size=args.batch_size,
     return train_loader, valid_loader, test_loader
 
 
-if __name__ == "__main__":
-    pass

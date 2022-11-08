@@ -72,14 +72,12 @@ class VAE(nn.Module):
         z = self.p_z.sample(z_shape=self.z_shape, n_samples=n_samples, device=args.device).to(args.device)
         # x ~ p(x| z)
         x_logits = self.p_x(z)
-        x_hat = self.sample_distribution(x_logits, random_sample=False)
-        return x_hat
+        return self.sample_distribution(x_logits, random_sample=False)
 
     @torch.no_grad()
     def reconstruct(self, x, **kwargs):
         x_logits = self.forward(x).get('x_logits')
-        x_hat = self.sample_distribution(x_logits, random_sample=False)
-        return x_hat
+        return self.sample_distribution(x_logits, random_sample=False)
 
     def calculate_elbo(self, input, outputs):
         # unpack variables
@@ -125,5 +123,3 @@ class VAE(nn.Module):
         }
 
 
-if __name__ == "__main__":
-    pass

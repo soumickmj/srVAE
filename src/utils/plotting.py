@@ -17,7 +17,7 @@ JPG_NORMALIZE = True
 def generate(model, n_samples, epoch=0, writer=None):
     if args.log_interval: 
         print('{:<2} {:<4}'.format('', 'Generate data...'+30*' '), end='\r')
-    
+
     models_name = model.module.__class__.__name__ if isinstance(model, nn.DataParallel) else model.__class__.__name__
     n_rows = int(n_samples**0.5)
 
@@ -42,9 +42,6 @@ def generate(model, n_samples, epoch=0, writer=None):
             save_image(make_grid(x, nrow=n_rows, normalize=JPG_NORMALIZE), fname_x)
             save_image(make_grid(y, nrow=n_rows, normalize=JPG_NORMALIZE), fname_y)
             save_image(make_grid(nn.functional.interpolate(y, size=x.shape[2:]), nrow=n_rows, normalize=JPG_NORMALIZE), './images/' + 're_generated_images_y_' + str(epoch) + '.jpg')
-    else:
-        pass
-
     return
 
 
@@ -105,9 +102,6 @@ def reconstruction(model, dataloader, n_samples, epoch=0, writer=None):
             y_img = nn.functional.interpolate(y, size=x.shape[2:])
             images = torch.cat((y_img, x, x_super), 0)
             save_image(make_grid(images, nrow=n_samples, normalize=JPG_NORMALIZE), fname)
-    else:
-        pass
-
     return
 
 
@@ -189,11 +183,6 @@ def interpolation(model, dataloader, n_samples, epoch=0, writer=None):
             writer.add_image('image_completion/x_rec', make_grid(x_hat, nrow=n_rows, normalize=TF_NORMALIZE), epoch)
         else:
             save_image(make_grid(x_hat, nrow=n_samples, normalize=JPG_NORMALIZE), 'images/image_interpolation.jpg')
-    else:
-        pass
-
     return
 
 
-if __name__ == "__main__":
-    pass

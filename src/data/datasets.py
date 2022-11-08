@@ -36,7 +36,7 @@ class CelebA(torchvision.datasets.CelebA):
         import pandas
         super(CelebA, self).__init__(root, transform=transform,
                                      target_transform=target_transform)
-        
+
         if isinstance(target_type, list):
             self.target_type = target_type
         else:
@@ -58,7 +58,7 @@ class CelebA(torchvision.datasets.CelebA):
             "test": 2,
             "all": None,
         }
-        
+
         self.split = "train" if train==True else "test"
         split = split_map[self.split]
 
@@ -105,10 +105,9 @@ class Imagenette(Dataset):
 
         if download:
             self.download()
-        else:
-            if not self.dataset_exists():
-                raise RuntimeError('Dataset not found or corrupted.' +
-                               ' You can use download=True to download it')
+        elif not self.dataset_exists():
+            raise RuntimeError('Dataset not found or corrupted.' +
+                           ' You can use download=True to download it')
 
         if train:
             self.img_dir = os.path.join(self.root, 'imagenette2-160', 'train')
@@ -257,5 +256,3 @@ class ImageNet64(Dataset):
         return img, 0
 
 
-if __name__ == "__main__":
-    pass

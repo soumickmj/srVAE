@@ -204,9 +204,14 @@ class DenseNetLayer(nn.Module):
         self.activation = nn.ELU(inplace=True)
 
         net = []
-        for step in range(steps):
-            net.append(DenseNetBlock(inplanes, growth_rate, drop_prob=drop_prob))
-            net.append(self.activation)
+        for _ in range(steps):
+            net.extend(
+                (
+                    DenseNetBlock(inplanes, growth_rate, drop_prob=drop_prob),
+                    self.activation,
+                )
+            )
+
             inplanes += growth_rate
 
         net.append(CALayer(inplanes, drop_prob=drop_prob))
@@ -221,7 +226,7 @@ class DenselyNetwork(nn.Module):
         super().__init__()
         # downscale block
         net = []
-        for i in range(blocks):
+        for _ in range(blocks):
             net.append(DenseNetLayer(in_channels, growth_rate, steps, drop_prob=drop_prob))
             in_channels = in_channels + growth_rate * steps
 
@@ -239,7 +244,7 @@ class DenselyEncoder(nn.Module):
         super().__init__()
         # downscale block
         net = []
-        for i in range(scale_factor):
+        for _ in range(scale_factor):
             net.append(DenseNetLayer(in_channels, growth_rate, steps, drop_prob=drop_prob))
             in_channels = in_channels + growth_rate * steps
             net.append(Downsample(in_channels, 2*in_channels, drop_prob=drop_prob))
@@ -264,7 +269,7 @@ class DenselyDecoder(nn.Module):
         super().__init__()
         # upsample block
         net = []
-        for i in range(scale_factor):
+        for _ in range(scale_factor):
             net.append(DenseNetLayer(in_channels, growth_rate, steps, drop_prob=drop_prob))
             in_channels = in_channels + growth_rate * steps
             net.append(Upsample(in_channels, in_channels//2, drop_prob=drop_prob))
@@ -280,5 +285,3 @@ class DenselyDecoder(nn.Module):
         return self.core_nn(x)
 
 
-if __name__ == "__main__":
-    pass
