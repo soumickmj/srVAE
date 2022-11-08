@@ -20,5 +20,3 @@ class LowerBoundedExponentialLR(_LRScheduler):
                 for base_lr in self.base_lrs]
 
 
-if __name__ == "__main__":
-    pass

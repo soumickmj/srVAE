@@ -14,12 +14,10 @@ NMIX = 10
 
 def n_embenddings(nc, distribution=args.likelihood):
 
-    if distribution == 'dmol':
-        nmix = NMIX
-        n_emb = (nc * 3 + 1) * nmix
-    else:
+    if distribution != 'dmol':
         raise NotImplementedError
-    return n_emb
+    nmix = NMIX
+    return (nc * 3 + 1) * nmix
 
 
 def logsumexp(x, dim=None):
@@ -154,5 +152,3 @@ def sample_from_dmol(x_mean, nc=3, nmix=NMIX, random_sample=False):
     return x
 
 
-if __name__ == "__main__":
-    pass

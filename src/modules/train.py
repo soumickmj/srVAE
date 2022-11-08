@@ -18,8 +18,7 @@ def evaluate(model, criterion, valid_loader):
         # gather statistics
         acc_losses = Counter(acc_losses) + Counter(diagnostics)
         log_interval(i+1, len(valid_loader), acc_losses)
-    avg_losses = {k: acc_losses[k] / len(valid_loader) for k in acc_losses}
-    return avg_losses
+    return {k: acc_losses[k] / len(valid_loader) for k in acc_losses}
 
 
 # ----- Train -----
@@ -40,9 +39,6 @@ def train(model, criterion, optimizer, scheduler, train_loader):
         # gather statistics
         acc_losses = Counter(acc_losses) + Counter(diagnostics)
         log_interval(i+1, len(train_loader), acc_losses)
-    avg_losses = {k: acc_losses[k] / len(train_loader) for k in acc_losses}
-    return avg_losses
+    return {k: acc_losses[k] / len(train_loader) for k in acc_losses}
 
 
-if __name__ == "__main__":
-    pass

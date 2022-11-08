@@ -69,9 +69,7 @@ class srVAE(nn.Module):
 
 
     def compressed_transoformation(self, input):
-        y = []
-        for x in input:
-            y.append(self.compressed_transform(x.cpu()))
+        y = [self.compressed_transform(x.cpu()) for x in input]
         return torch.stack(y).to(self.device)
 
 
@@ -133,8 +131,7 @@ class srVAE(nn.Module):
 
         # x ~ p(x|y,z)
         x_logits = self.p_x((y, z_p))
-        x_hat = self.sample_distribution(x_logits)
-        return x_hat
+        return self.sample_distribution(x_logits)
 
 
     def calculate_elbo(self, x, outputs, **kwargs):
@@ -216,5 +213,3 @@ class srVAE(nn.Module):
         }
 
 
-if __name__ == "__main__":
-    pass

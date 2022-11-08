@@ -50,5 +50,4 @@ def calculate_nll(model, test_loader, criterion, args, iw_samples):
 
     # calculate full negative log-likelihood
     nll = - torch.tensor(likelihood_test).mean().item()
-    bpd = nll / (np.prod(img_shape) * np.log(2.))
-    return bpd
+    return nll / (np.prod(img_shape) * np.log(2.))
